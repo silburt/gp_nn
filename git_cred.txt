@@ -1,0 +1,3 @@
+git remote set-url origin https://silburt@github.com/silburt/gp_nn.git
+
+Then whenever you git push/pull you’ll have to enter password. Ah well…
