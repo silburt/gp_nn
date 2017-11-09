@@ -82,7 +82,8 @@ def make_small_mnist_nn(x_placeholder, end_h=50):
     return h4
 
 
-def suggest_good_intial_inducing_points(phs: DataPlaceholders, x_data, h, tf_session, num_inducing):
+def suggest_good_intial_inducing_points(phs, x_data, h, tf_session, num_inducing):
+    suggest_good_intial_inducing_points.__annotations__ = {'phs': DataPlaceholders}
     h_data = tf_session.run(h, feed_dict={phs.ximage_flat: x_data})
     kmeans = cluster.MiniBatchKMeans(n_clusters=num_inducing, batch_size=num_inducing*10)
     kmeans.fit(h_data)
@@ -91,6 +92,7 @@ def suggest_good_intial_inducing_points(phs: DataPlaceholders, x_data, h, tf_ses
 
 
 def suggest_sensible_lengthscale(phs: DataPlaceholders, x_data, h, tf_session):
+    suggest_sensible_lengthscale.__annotations__ = {'phs': DataPlaceholders}
     h_data = tf_session.run(h, feed_dict={phs.ximage_flat: x_data})
     lengthscale = np.mean(distance.pdist(h_data, 'euclidean'))
     return lengthscale
