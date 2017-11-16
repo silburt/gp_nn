@@ -10,7 +10,6 @@ import pandas as pd
 
 import gpflow as gpf
 
-
 class DataPlaceholders(object):
     def __init__(self):
         self.ximage_flat = tf.placeholder(tf.float32, shape=[None, 28*28])
@@ -139,8 +138,8 @@ def main():
     # ## We now set up the GP part. Instead of the usual X data it will get the data after being processed by the NN.
     kernel = gpf.kernels.RBF(num_h)
     likelihood = gpf.likelihoods.MultiClass(num_classes)
-    gp_model = gpf.models.SVGP(h, phs.label, kernel, likelihood, np.ones((num_inducing, num_h), gpf.settings.np_float),
-                               num_latent=num_classes, whiten=False, minibatch_size=None, num_data=x_train.shape[0])
+    with gpf.defer_build():
+        gp_model = gpf.models.SVGP(h, phs.label, kernel, likelihood, np.ones((num_inducing, num_h), gpf.settings.np_float),num_latent=num_classes, whiten=False, minibatch_size=None, num_data=x_train.shape[0])
     # ^ so we say minibatch size is None to make sure we get DataHolder rather than minibatch data holder, which
     # does not allow us to give in tensors. But we will handle all our minibatching outside.
     gp_model.compile(tf_session)
