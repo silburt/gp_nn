@@ -10,7 +10,6 @@ import pandas as pd
 
 import gpflow as gpf
 
-
 class DataPlaceholders(object):
     def __init__(self):
         self.ximage_flat = tf.placeholder(tf.float32, shape=[None, 28*28])
